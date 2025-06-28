@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css.style.css">
+    <title>Prime Salon</title>
+</head>
+<body>
+    <div id="signin-modal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:2000;">
+        <div style="background:#fff;padding:2rem 2.5rem;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.15);text-align:center;max-width:350px;">
+            <h2 style="color:#333;margin-bottom:1.5rem;">Sign In Required</h2>
+            <p style="color:#555;margin-bottom:1.5rem;">Please sign in to access the dashboard.</p>
+            <input type="text" placeholder="Username" style="width:90%;padding:8px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc;"><br>
+            <input type="password" placeholder="Password" style="width:90%;padding:8px;margin-bottom:18px;border-radius:5px;border:1px solid #ccc;"><br>
+            <button onclick="accessDashboard()" style="padding:10px 30px;background:#2a7ae4;color:#fff;border:none;border-radius:5px;font-weight:bold;cursor:pointer;">Sign In</button>
+        </div>
+    </div>
+    <div class="container" id="dashboard-content" style="filter:blur(3px);pointer-events:none;">
+        <!-- Sidebar Dashboard -->
+        <aside class="sidebar">
+            <nav class="dashboard-nav">
+                <ul class="ul">
+                    <li class="li"><button class="button active">HOME</button></li>
+                    <li class="li"><button class="button active">CALENDAR</button></li>
+                    <li class="li"><button class="button active">SETTINGS</button></li>
+    
+            
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class ="haeder">
+                <div class="header-left">
+                    <h1>PRIME SALON</h1>
+                    <p>Welcome to the Prime Salon Dashboard</p>
+                </div>
+                
+            </header>            </header>
+        
+            <h2>Select Payment Platform</h2>
+            <div class="card-container">
+                <div class="payment-card-mpesa">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/M-PESA_LOGO-01.png" alt="Mpesa Logo">
+                    <h3>Mpesa</h3>
+                    <p>Pay securely using Mpesa mobile money.</p>
+                    <button onclick="generateReceipt('Mpesa')">Pay with Mpesa</button>
+                </div>
+                <div class="payment-card-paypal">
+                    <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal Logo">
+                    <h3>PayPal</h3>
+                    <p>Pay easily with your PayPal account.</p>
+                    <button onclick="generateReceipt('PayPal')">Pay with PayPal</button>
+                </div>
+            </div>
+
+            <div id="message" style="margin:20px 0;color:green;font-weight:bold;"></div>
+
+            <div class="receipts" id="receipts">
+                <h2>Receipts</h2>
+                <div class="invoice">
+                    <h3>Mpesa Invoice</h3>
+                    <div class="invoice-details">
+                        <div><span>Transaction ID:</span> <span id="mpesa-tx">MP123456789</span></div>
+                        <div><span>Date:</span> <span id="mpesa-date">2025-06-28</span></div>
+                        <div><span>Amount:</span> <span id="mpesa-amt">KES 1,000.00</span></div>
+                        <div><span>Status:</span> <span id="mpesa-status">Successful</span></div>
+                    </div>
+                </div>
+                <div class="invoice">
+                    <h3>PayPal Invoice</h3>
+                    <div class="invoice-details">
+                        <div><span>Transaction ID:</span> <span id="paypal-tx">PP987654321</span></div>
+                        <div><span>Date:</span> <span id="paypal-date">2025-06-28</span></div>
+                        <div><span>Amount:</span> <span id="paypal-amt">USD 10.00</span></div>
+                        <div><span>Status:</span> <span id="paypal-status">Successful</span></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        function accessDashboard() {
+            document.getElementById('signin-modal').style.display = 'none';
+            document.getElementById('dashboard-content').style.filter = 'none';
+            document.getElementById('dashboard-content').style.pointerEvents = 'auto';
+        }
+
+        function generateReceipt(platform) {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10);
+            let txId = '';
+            let amt = '';
+            let status = 'Successful';
+            let msg = '';
+
+            if (platform === 'Mpesa') {
+                txId = 'MP' + Math.floor(Math.random() * 1000000000);
+                amt = 'KES 1,000.00';
+                document.getElementById('mpesa-tx').textContent = txId;
+                document.getElementById('mpesa-date').textContent = dateStr;
+                document.getElementById('mpesa-amt').textContent = amt;
+                document.getElementById('mpesa-status').textContent = status;
+                msg = 'Mpesa payment successful! Receipt generated.';
+            } else if (platform === 'PayPal') {
+                txId = 'PP' + Math.floor(Math.random() * 1000000000);
+                amt = 'USD 10.00';
+                document.getElementById('paypal-tx').textContent = txId;
+                document.getElementById('paypal-date').textContent = dateStr;
+                document.getElementById('paypal-amt').textContent = amt;
+                document.getElementById('paypal-status').textContent = status;
+                msg = 'PayPal payment successful! Receipt generated.';
+            }
+
+            document.getElementById('message').textContent = msg;
+            setTimeout(() => {
+                document.getElementById('message').textContent = '';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
